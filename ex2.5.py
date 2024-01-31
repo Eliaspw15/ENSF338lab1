@@ -12,8 +12,8 @@ def load_modify_and_save_json(file_path, new_size=35, output_file='output.2.3.js
             record['size'] = new_size
 
         # Save the modified data back to a new JSON file in reverse order
-        with open(output_file, 'w') as output_file:
-            json.dump(data[::-1], output_file, indent=2)
+        #with open(output_file, 'w') as output_file:
+            #json.dump(data[::-1], output_file, indent=2)
 
         print(f"Successfully loaded, modified, and saved reversed JSON data to {output_file}")
     except FileNotFoundError:
@@ -26,5 +26,5 @@ def load_modify_and_save_json(file_path, new_size=35, output_file='output.2.3.js
 
 file_path = 'large-file.json'  
 
-elapsed_time = timeit.timeit(lambda: load_modify_and_save_json(file_path), number=1)
+elapsed_time = timeit.timeit(lambda: load_modify_and_save_json(file_path), number=10)
 print(f'Elapsed time: {elapsed_time} seconds')
