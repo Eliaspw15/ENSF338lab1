@@ -3,30 +3,24 @@ import json
 from matplotlib import pyplot as plt
 import numpy as np
 
-def load_json(file_path,new_size=35, num_records=1):
-    try:
-        # Load JSON data from file
-        with open(file_path, 'r') as file:
-            data = json.load(file)[:num_records]
-        
-        for record in data:
-            record['size'] = new_size
+file_path = 'large-file.json'  
+with open(file_path, 'r') as file:
+            data = json.load(file)
 
-    except FileNotFoundError:
-        print(f"Error: File not found - {file_path}")
-    except json.JSONDecodeError:
-        print(f"Error: Unable to decode JSON in file - {file_path}")
-    except Exception as e:
-        print(f"Error: {e}")
+def modify_json_size(data, new_size=35):
+    for record in data:
+        record['size'] = new_size
 
-file_path = 'large-file.json'
+
+modify_json_size(data)
+
 
 elapsed_time = []
 avg_times = []
-elapsed_time.append(timeit.timeit(lambda: load_json(file_path, num_records=1000), number=10))
-elapsed_time.append(timeit.timeit(lambda: load_json(file_path, num_records=2000), number=10))
-elapsed_time.append(timeit.timeit(lambda: load_json(file_path, num_records=5000), number=10))
-elapsed_time.append(timeit.timeit(lambda: load_json(file_path, num_records=10000), number=10))
+elapsed_time.append(timeit.timeit(lambda: modify_json_size(data,new_size = 1000), number=100))
+elapsed_time.append(timeit.timeit(lambda: modify_json_size(data,new_size = 2000), number=100))
+elapsed_time.append(timeit.timeit(lambda: modify_json_size(data,new_size = 5000), number=100))
+elapsed_time.append(timeit.timeit(lambda: modify_json_size(data,new_size = 10000), number=100))
 
 avg_times.append(elapsed_time[0]/100)
 avg_times.append(elapsed_time[1]/100)
