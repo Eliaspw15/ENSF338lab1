@@ -1,7 +1,6 @@
 import timeit
 
 def avg_vowels(arr):
-    
     vowel = 0
     avg = 0
     words = 0
@@ -14,23 +13,20 @@ def avg_vowels(arr):
                     words += 1
 
     avg = vowel/words
+    return avg
 
 consonants = "bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWZ" #initialized all consonants
 
-line_array = [] #line
+line_array = [] 
 #need to start recording once CHAPTER 1. Loomings which is at position 843 so 842 since starting at 0
 with open ('pg2701.txt') as my_file:
     line_array = my_file.readlines()
 
-
-avg_vowels(line_array)
-
-
 elapsed_time = []
-
 elapsed_time.append(timeit.timeit(lambda: avg_vowels(line_array), number=100))
 
 avg_time = elapsed_time[0]/100
+#print(f'Average number of vowels per word: {avg_vowels(line_array)}')                   
 print(f'Average time to compute average number of vowels per word: {avg_time} seconds')
 
 
