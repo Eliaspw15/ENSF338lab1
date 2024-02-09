@@ -36,5 +36,5 @@ cProfile.run('re.compile("test_function")')         #all i need?
 cProfile.run('re.compile("third_function")')        #all i need?
 
 #4. The total execution time would be a sum of the time per call of inidvidual parts of each function as the purpose of
-    #of the profiler is to highlight how much time is consumed by distinct components of the function
-    #
+    #of the profiler is to highlight how much time is consumed by distinct components of the function.
+    #If one wished to view the execution time plainly, benchmarking using modules like timeit, would be more effective.

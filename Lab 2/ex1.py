@@ -9,7 +9,8 @@ def func(n):
 
 #1. This is the fibonacci sequence for n terms.
 
-#2. Yes this is a divide and conquer algorithm. It is just innefficient. 
+#2. Yes this is technically a divide and conquer algorithm as it splits the problem into smaller problems. 
+    #It is just innefficient because the "smaller" problems are only slightly smaller than the original. 
 
 #3. This function has a time complexity of O(2^n)
 
