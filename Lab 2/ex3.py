@@ -31,11 +31,10 @@ def third_function():
 
 test_function()
 third_function()
-cProfile.run('test_function', 'test_function_profile')
-cProfile.run('third_function', 'third_function_profile')
 
-p = pstats.Stats('test_function_profile')
-p.sort_stats("cumulative").print_stats()
+cProfile.run('re.compile("test_function")')         #all i need?
+cProfile.run('re.compile("third_function")')        #all i need?
 
-p = pstats.Stats('third_function_profile')
-p.sort_stats("cumulative").print_stats()
+#4. The total execution time would be a sum of the time per call of inidvidual parts of each function as the purpose of
+    #of the profiler is to highlight how much time is consumed by distinct components of the function
+    #
