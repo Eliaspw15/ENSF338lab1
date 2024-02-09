@@ -9,3 +9,4 @@
 best case would be in the middle of the dataset, (114 or 116)
 
 5.)Once we memorized the floor plan and realized it was a circle and the greatest room was 138, rooms increased by 2, and it was sorted, we would change the algorithm to a reverse linear search so we start at room 138 and work our way down to room 128. 
+`
