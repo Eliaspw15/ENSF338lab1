@@ -1,5 +1,7 @@
 #bubble sort and quicksort
 import random
+import timeit
+from matplotlib import pyplot as plt
 def bubble_sort(arr):
     n = len(arr)
     for i in range(n):
@@ -34,31 +36,78 @@ def partition(arr, low, high):
     arr[low],arr[right] = arr[right], arr[low]
     return right
 
-import random
-import timeit
+#need 20 random arrays of random sizes
+#need 20 sorted arrays of same size as above
+#need 20 reverse sorted arrays of same size as above
 
-def generate_random_arrays(num_arrays, max_size, max_value):
-    random_arrays = []
+import numpy as np
+
+def generate_arrays(num_arrays=20, min_size=5, max_size=500):
+    arrays = []
+    sorted_arrays = []
+    reverse_sorted_arrays = []
+    
     for _ in range(num_arrays):
-        array_size = random.randint(1, max_size)
-        random_array = [random.randint(1, max_value) for _ in range(array_size)]
-        random_arrays.append(random_array)
-    return random_arrays
+        size = np.random.randint(min_size, max_size+1)
+        
+        # Generate random array
+        random_array = np.random.randint(0, 1000, size)
+        arrays.append(random_array)
+        
+        # Sort array
+        sorted_array = np.sort(random_array)
+        sorted_arrays.append(sorted_array)
+        
+        # Reverse sort array
+        reverse_sorted_array = np.sort(random_array)[::-1]
+        reverse_sorted_arrays.append(reverse_sorted_array)
+    
+    return arrays, sorted_arrays, reverse_sorted_arrays
 
-# generates 20 random arrays with various sizes:
-random_arrays = generate_random_arrays(num_arrays=20, max_size=150, max_value=1000)
+# Example usage:
+random_arrays, sorted_arrays, reverse_sorted_arrays = generate_arrays()
 
-arrays_length = []
-elapsed_time = []
+Random_times = []
+sorted_times = []
+rvs_times = []
+random_lengths = [len(arr) for arr in random_arrays]
+sorted_lengths = [len(arr) for arr in sorted_arrays]
+reverse_sorted_lengths = [len(arr) for arr in reverse_sorted_arrays]
 
-for i in range(len(random_arrays)):
-    arrays_length.append(len(random_arrays[i]))
-    print(f"Array {i} Length is: {arrays_length[i]}\n")
+for arr in random_arrays:
+    time = timeit.timeit(lambda: bubble_sort(arr),number = 1)
+    Random_times.append(time)
+    
+for arr in sorted_arrays:
+    time = timeit.timeit(lambda: bubble_sort(arr),number = 1)
+    sorted_times.append(time)
 
-for i in range(len(random_arrays)):
-    random_arrays[i] = bubble_sort(random_arrays[i])
+for arr in reverse_sorted_arrays:
+    time = timeit.timeit(lambda: bubble_sort(arr),number = 1)
+    rvs_times.append(time)
+    
+plt.figure(figsize=(8, 5))
+plt.scatter(random_lengths, Random_times, color='blue', label='Random Arrays')
+plt.title("Random Lengths vs Time")
+plt.ylabel("Time")
+plt.xlabel("Length of Array")
+plt.legend()
 
-for i in range(len(random_arrays)):
-    print(f"Array {i}: {random_arrays[i]}\n\n")
 
+plt.figure(figsize=(8, 5))
+plt.scatter(sorted_lengths, sorted_times, color='red', label='Sorted Arrays')
+plt.title("Sorted Lengths vs Time")
+plt.ylabel("Time")
+plt.xlabel("Length of Array")
+plt.legend()
+
+
+plt.figure(figsize=(8, 5))
+plt.scatter(reverse_sorted_lengths, rvs_times, color='green', label='Reverse Sorted Arrays')
+plt.title("Reverse Sorted Lengths vs Time")
+plt.ylabel("Time")
+plt.xlabel("Length of Array")
+plt.legend()
+
+plt.show()
 
