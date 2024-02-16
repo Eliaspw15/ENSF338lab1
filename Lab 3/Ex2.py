@@ -1,5 +1,8 @@
 #bubble sort and quicksort
 import random
+import timeit
+from matplotlib import pyplot as plt
+import numpy as np
 def bubble_sort(arr):
     n = len(arr)
     for i in range(n):
@@ -10,12 +13,13 @@ def bubble_sort(arr):
                 arr[j+1] = temp
     return arr
 
-def quicksort(arr,low,high):
-    if low>high:
-        pivot_index = partition(arr,low, high)
-        quicksort(arr,low,pivot_index)
-        quicksort(arr,pivot_index + 1, high)
+def quicksort(arr, low, high):
+    if low < high:
+        pivot_index = partition(arr, low, high)
+        quicksort(arr, low, pivot_index - 1)  
+        quicksort(arr, pivot_index + 1, high)
     return arr
+
     
 def partition(arr, low, high):
     pivot = arr[low]
@@ -34,31 +38,113 @@ def partition(arr, low, high):
     arr[low],arr[right] = arr[right], arr[low]
     return right
 
-import random
-import timeit
 
-def generate_random_arrays(num_arrays, max_size, max_value):
-    random_arrays = []
+#generate_arrays function from chat gpt
+def generate_arrays(num_arrays=20, min_size=5, max_size=100):
+    arrays = []
+    sorted_arrays = []
+    reverse_sorted_arrays = []
+    
     for _ in range(num_arrays):
-        array_size = random.randint(1, max_size)
-        random_array = [random.randint(1, max_value) for _ in range(array_size)]
-        random_arrays.append(random_array)
-    return random_arrays
+        size = np.random.randint(min_size, max_size+1)
+        
+        # Generate random array
+        random_array = np.random.randint(0, 1000, size)
+        arrays.append(random_array)
+        
+        # Sort array
+        sorted_array = np.sort(random_array)
+        sorted_arrays.append(sorted_array)
+        
+        # Reverse sort array
+        reverse_sorted_array = np.sort(random_array)[::-1]
+        reverse_sorted_arrays.append(reverse_sorted_array)
+    
+    return arrays, sorted_arrays, reverse_sorted_arrays
+#best_case_quicksort from chat gpt
+def best_case_array(size):
+    arr = list(range(1, size + 1))
+    random.shuffle(arr)
+    return arr
 
-# generates 20 random arrays with various sizes:
-random_arrays = generate_random_arrays(num_arrays=20, max_size=150, max_value=1000)
+def generate_best_case_arrays(num_arrays, min_size, max_size):
+    best_case_arrays = []
+    for _ in range(num_arrays):
+        size = random.randint(min_size, max_size)
+        best_case_arrays.append(best_case_array(size))
+    return best_case_arrays
 
-arrays_length = []
-elapsed_time = []
+# Generate 20 arrays of various sizes that represent the best case for quicksort
+best_case_arrays_QS = generate_best_case_arrays(20, 5, 100)
+random_arrays, sorted_arrays, reverse_sorted_arrays = generate_arrays()
 
-for i in range(len(random_arrays)):
-    arrays_length.append(len(random_arrays[i]))
-    print(f"Array {i} Length is: {arrays_length[i]}\n")
+#creating arrays for times
+Random_times_Bubble = []
+Random_times_QS =[]
+sorted_times = []
+best_caseQS_times = []
+rvs_times = []
+worst_caseQS_times = []
 
-for i in range(len(random_arrays)):
-    random_arrays[i] = bubble_sort(random_arrays[i])
+#arrays with length of the arrays above for plotting
+random_lengths_Bubble = [len(arr) for arr in random_arrays] 
+sorted_lengths = [len(arr) for arr in sorted_arrays]
+reverse_sorted_lengths = [len(arr) for arr in reverse_sorted_arrays]
+best_case_arrays_QS_lengths = [len(arr) for arr in best_case_arrays_QS]
 
-for i in range(len(random_arrays)):
-    print(f"Array {i}: {random_arrays[i]}\n\n")
+for arr in random_arrays: #times for Avg case for Bs
+    time = timeit.timeit(lambda: bubble_sort(arr),number = 1)
+    Random_times_Bubble.append(time)
+    
+for arr in sorted_arrays: #times for best case for bs
+    time = timeit.timeit(lambda: bubble_sort(arr),number = 1)
+    sorted_times.append(time)
+
+for arr in reverse_sorted_arrays: #times for worst case for bs
+    time = timeit.timeit(lambda: bubble_sort(arr),number = 1)
+    rvs_times.append(time)
+    
+for arr in random_arrays: #times for AVG case for QS
+    time = timeit.timeit(lambda: quicksort(arr,  0, len(arr) - 1), number=1)
+    Random_times_QS.append(time)
+    
+for arr in sorted_arrays: #times for worst case for qs
+    time = timeit.timeit(lambda: quicksort(arr,  0, len(arr) - 1), number=1)
+    worst_caseQS_times.append(time)
+
+for arr in best_case_arrays_QS: #times for best case for qs
+    time = timeit.timeit(lambda: quicksort(arr,  0, len(arr) - 1), number=1)
+    best_caseQS_times.append(time)
+
+for arr in best_case_arrays_QS:
+    print(quicksort(arr,0,len(arr)-1)) 
+
+fig, axs = plt.subplots(2, 2, figsize=(15, 10))
 
 
+axs[0, 0].scatter(random_lengths_Bubble, Random_times_Bubble, color='blue', label='Bubble Sort')
+axs[0, 0].scatter(random_lengths_Bubble, Random_times_QS, color='red', label='QS')
+axs[0, 0].set_title("Length of arrays (average case) vs Time")
+axs[0, 0].set_ylabel("Time")
+axs[0, 0].set_xlabel("Length of Array")
+axs[0, 0].legend()
+
+axs[0, 1].scatter(sorted_lengths, sorted_times, color='blue', label='Bubble Sort')
+axs[0, 1].scatter(best_case_arrays_QS_lengths, best_caseQS_times, color='red', label='QS')
+axs[0, 1].set_title("Length of array(best case) vs Time")
+axs[0, 1].set_ylabel("Time")
+axs[0, 1].set_xlabel("Length of Array")
+axs[0, 1].legend()
+
+
+axs[1, 0].scatter(reverse_sorted_lengths, rvs_times, color='blue', label='Bubble Sort')
+axs[1, 0].scatter(sorted_lengths, worst_caseQS_times, color='red', label='QS')
+axs[1, 0].set_title("Length of array (worst case) vs Time")
+axs[1, 0].set_ylabel("Time")
+axs[1, 0].set_xlabel("Length of Array")
+axs[1, 0].legend()
+
+
+
+plt.tight_layout() 
+plt.show()
