@@ -16,7 +16,7 @@ def bubble_sort(arr):
     num_swaps.append(swaps)
     num_comparisons.append(comparisons)
     return arr
-
+#generates 100 random arrays for avg case
 def generate_random_array(length):
     return [random.randint(0, 100) for i in range(length)]
 
@@ -55,7 +55,7 @@ plt.xlabel('Array Length')
 plt.ylabel('Number of Swaps')
 plt.title('Number of Swaps vs Array Length')
 
-# Fit and plot interpolating function
+# Fit and plot interpolating function for swaps
 p_swaps = np.polyfit(array_length, num_swaps, 2)
 x_swaps = np.linspace(1, len(array_length), 100)
 y_swaps = np.polyval(p_swaps, x_swaps)
