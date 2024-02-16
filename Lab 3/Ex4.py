@@ -26,7 +26,7 @@ def partition(arr, low, high):
     arr[low], arr[right] = arr[right], arr[low]
     return right
 
-def run_quicksort_and_measure_time(size):
+def run_quicksort_and_measure_time(size): #used chatgpt to refresh on how to go about implementing this
     arr = [random.randint(1, 100) for _ in range(size)]
     start_time = time.time()
     quicksort(arr, 0, len(arr) - 1)
