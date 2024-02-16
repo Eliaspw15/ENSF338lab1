@@ -41,7 +41,7 @@ plt.xlabel('Array Length')
 plt.ylabel('Number of Comparisons')
 plt.title('Number of Comparisons vs Array Length')
 
-# Fit and plot interpolating function
+# Fit and plot interpolating function for comparisons
 p_comp = np.polyfit(array_length, num_comparisons, 2)
 x_comp = np.linspace(1, len(array_length), 100)
 y_comp = np.polyval(p_comp, x_comp)
