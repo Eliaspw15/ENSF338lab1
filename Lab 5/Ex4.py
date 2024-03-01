@@ -29,3 +29,12 @@ print("Dequeue:", array_queue.dequeue())
 print("Dequeue:", array_queue.dequeue())  
 print("Dequeue:", array_queue.dequeue())  
 print("Dequeue:", array_queue.dequeue())  # TEST CASE of attempt to dequeue from empty array
+
+#2
+# Linked List Implementation
+
+#3
+# could be interrupted by is_empty method
+
+#4, 5
+# ez
