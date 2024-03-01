@@ -1,3 +1,4 @@
+# 1
 class ArrayQueue:
     def __init__(self):
         self.queue = []
@@ -7,12 +8,12 @@ class ArrayQueue:
 
     def dequeue(self):
         if not self.is_empty():
-            return self.queue.pop()  # Remove from the tail
+            return self.queue.pop()  # Remove AND return from the tail
         else:
             print("Cannot dequeue from an empty queue")
             return -1
 
-    def is_empty(self):
+    def is_empty(self):     #this method and its use in dequeue was added after comparing with chatgpt assisted solution
         return len(self.queue) == 0
 
 
@@ -23,8 +24,8 @@ array_queue.enqueue(5)
 array_queue.enqueue(3)
 array_queue.enqueue(9)
 
-print("ArrayQueue:")
-print("Dequeue:", array_queue.dequeue())  # Removes 1 (tail)
-print("Dequeue:", array_queue.dequeue())  # Removes 2 (tail)
-print("Dequeue:", array_queue.dequeue())  # Removes 3 (tail)
-print("Dequeue:", array_queue.dequeue())  # Removes 3 (tail) TEST CASE of empty array
+print("Array Queue:")
+print("Dequeue:", array_queue.dequeue())  
+print("Dequeue:", array_queue.dequeue())  
+print("Dequeue:", array_queue.dequeue())  
+print("Dequeue:", array_queue.dequeue())  # TEST CASE of attempt to dequeue from empty array
