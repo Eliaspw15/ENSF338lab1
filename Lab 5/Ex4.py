@@ -110,8 +110,8 @@ tasks = generate_random_tasks()
 array_times = timeit.repeat(lambda: measure_performance(array_queue, tasks), number=1, repeat=100)
 linked_list_times = timeit.repeat(lambda: measure_performance(linked_list_queue, tasks), number=1, repeat=100)
 
-#print("Array Queue Time (avg):", sum(array_times) / len(array_times))
-#print("Linked List Queue Time (avg):", sum(linked_list_times) / len(linked_list_times))
+print("Array Queue Time (avg):", sum(array_times) / len(array_times))
+print("Linked List Queue Time (avg):", sum(linked_list_times) / len(linked_list_times))
 
 # Plot the distribution of times
 plot_distribution(array_times, linked_list_times)
