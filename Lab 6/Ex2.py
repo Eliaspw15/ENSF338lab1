@@ -1,6 +1,7 @@
 import random
 import timeit
 
+#just setup for Ex2 since it requires some of the same functions as 1
 class Node:
     def __init__(self, data, parent=None, left=None, right=None):
         self.parent = parent
@@ -39,18 +40,3 @@ class Node:
             else:
                 current = current.right
         return None
-
-sorted_vector = list(range(10000))
-unsorted_vector = sorted_vector.random.shuffle
-
-sorted_tree = None
-for item in sorted_vector:
-    sorted_tree = Node.insert(item, sorted_tree)
-
-
-unsorted_vector = sorted_vector.copy()
-random.shuffle(unsorted_vector)         
-
-unsorted_tree = None
-for item in unsorted_vector:
-    unsorted_tree = Node.insert(item, unsorted_tree)
