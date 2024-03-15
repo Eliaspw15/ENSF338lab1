@@ -40,7 +40,7 @@ class Node:
             return None
 
 
-def measure_search_performance(tree, elements):
+def measure_search_performance(tree, elements):     #ChatGPT assisted
     avg_time = timeit.timeit(lambda: [tree.search(element) for element in elements], number=10) / 10
     total_time = avg_time * len(elements)
     return avg_time, total_time

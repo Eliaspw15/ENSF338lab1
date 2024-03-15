@@ -52,7 +52,7 @@ def binary_search(arr, target):
             high = mid - 1
     return -1
 
-def measure_tree_bs_performance(tree, elements):
+def measure_tree_bs_performance(tree, elements):    #ChatGPT assisted
     avg_time = timeit.timeit(lambda: [tree.search(element) for element in elements], number=10) / 10    #ChatGPT assisted
     total_time = avg_time * len(elements)
     return avg_time, total_time
