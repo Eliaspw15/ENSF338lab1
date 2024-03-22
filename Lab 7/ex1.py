@@ -2,6 +2,7 @@ import timeit
 import random
 import matplotlib.pyplot as plt
 
+#help from chatgpt implementing performance_balance and implementing iteration through bst
 class Node:
     def __init__(self, data, parent=None, left=None, right=None):
         self.parent = parent
@@ -55,13 +56,13 @@ class BST:
             return self.height(node.left) - self.height(node.right)
     
     def __iter__(self):
-        return self._traverse_in_order(self.root)
+        yield from self.inorder(self.root)
 
-    def _traverse_in_order(self, node):
+    def inorder(self, node):
         if node is not None:
-            yield from self._traverse_in_order(node.left)
+            yield from self.inorder(node.left)
             yield node
-            yield from self._traverse_in_order(node.right)
+            yield from self.inorder(node.right)
 
 def generate_searches():
     ints = list(range(1, 1001))
@@ -76,11 +77,12 @@ def performance_balance(search_tasks):
     largest_balances = []
 
     for task in search_tasks:
-        bst = BST()  
+        #creates new BST every iteration.
+        bst = BST()
         for integer in task:
             bst.insert(integer)
 
-        # Calculate average performance
+        # Calculation of average performance
         start_time = timeit.default_timer()
         for integer in task:
             bst.search(integer)
@@ -88,7 +90,9 @@ def performance_balance(search_tasks):
         time_taken = end_time - start_time
         avg_performance.append(time_taken / len(task))
 
-        largest_balance = max(abs(bst.balance_factor(node)) for node in bst)
+        #calculation of largest balance
+        nodes = list(bst)
+        largest_balance = max(abs(bst.balance_factor(node)) for node in nodes)
         largest_balances.append(largest_balance)
 
     return avg_performance, largest_balances
