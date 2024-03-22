@@ -50,7 +50,7 @@ class BST:
         else:
             return self.height(node.left) - self.height(node.right)
 
-    def update_balances_from_pivot(self, node):
+    def update_balances_from_pivot(self, node):         #chatgpt assisted for understanding how to measure and compare weights
         while node is not None:
             left_height = self.height(node.left)
             right_height = self.height(node.right)
