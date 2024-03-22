@@ -1,39 +1,107 @@
+import timeit
+import random
+import matplotlib.pyplot as plt
+
 class Node:
-    def __init__(self,data, parent=None, left=None, right=None):
+    def __init__(self, data, parent=None, left=None, right=None):
         self.parent = parent
         self.data = data
         self.left = left
-        self.right= right
+        self.right = right
 
-    def insert(data, root=None):
-        current = root
-        parent= None
+class BST:
+    def __init__(self):
+        self.root = None
 
-        While current is not None:
-            parent = current
-            if Data <= current.data:
-                current = current.left_child_index
+    def insert(self, data):
+        if self.root is None:
+            self.root = Node(data)
+            return self.root
+
+        current = self.root
+        while True:
+            if data <= current.data:
+                if current.left is None:
+                    current.left = Node(data, parent=current)
+                    return current.left
+                current = current.left
             else:
-                current = current.right_child_index
-        newnode = Node(data,parent)        
-        if root is None:
-            root = newnode
-        elif data <= parent.data:
-            parent.left = newnode
-        else:
-            parent.right = newnode
-        return newnode
+                if current.right is None:
+                    current.right = Node(data, parent=current)
+                    return current.right
+                current = current.right
 
-    def search(data,root:
-        current = root
+    def search(self, data):
+        current = self.root
         while current is not None:
             if data == current.data:
                 return current
-
-            elif data <= current.data:
-                current = current.left 
+            elif data < current.data:
+                current = current.left
             else:
                 current = current.right
         return None
-        
-        
+    
+    def height(self, node):
+        if node is None:
+            return 0
+        else:
+            return max(self.height(node.left), self.height(node.right)) + 1
+    
+    def balance_factor(self, node):
+        if node is None:
+            return 0 
+        else:
+            return self.height(node.left) - self.height(node.right)
+    
+    def __iter__(self):
+        return self._traverse_in_order(self.root)
+
+    def _traverse_in_order(self, node):
+        if node is not None:
+            yield from self._traverse_in_order(node.left)
+            yield node
+            yield from self._traverse_in_order(node.right)
+
+def generate_searches():
+    ints = list(range(1, 1001))
+    search_tasks = []
+    for i in range(1000):
+        random.shuffle(ints)
+        search_tasks.append(ints.copy())
+    return search_tasks
+
+def performance_balance(search_tasks):
+    avg_performance = []
+    largest_balances = []
+
+    for task in search_tasks:
+        bst = BST()  
+        for integer in task:
+            bst.insert(integer)
+
+        # Calculate average performance
+        start_time = timeit.default_timer()
+        for integer in task:
+            bst.search(integer)
+        end_time = timeit.default_timer()
+        time_taken = end_time - start_time
+        avg_performance.append(time_taken / len(task))
+
+        largest_balance = max(abs(bst.balance_factor(node)) for node in bst)
+        largest_balances.append(largest_balance)
+
+    return avg_performance, largest_balances
+
+
+search_tasks = generate_searches()
+avg_performance, largest_balances = performance_balance(search_tasks)
+
+print("Average Performance:", sum(avg_performance) / len(avg_performance))
+print("Largest Absolute Balance:", max(largest_balances))
+
+plt.scatter(largest_balances, avg_performance, alpha=0.5)
+plt.xlabel('Absolute Balance')
+plt.ylabel('Search Time (seconds)')
+plt.title('Scatterplot of Absolute Balance vs Search Time')
+plt.show()
