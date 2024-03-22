@@ -71,11 +71,11 @@ bst.insert(5)       #invokes case 1
 
 
 print("\nTest Case 2:")
-bst.insert(3)
+bst.insert(3)       #invokes case 3 because no imbalance + pivot is present, therefore, neither case 1 or 2 invoked
 bst.insert(2)       #invokes case 2
 
 print("\nTest Case 3:")
-bst.insert(7)       #invokes case 3
+bst.insert(7)       #invokes case 3, case 1 or 2 not present
 
 print("\nTest Case 4:")     #further insertions invoking case 2 and 3 where case 2 occurs every other insertion due to the tree being imbalanced
 bst.insert(5)
