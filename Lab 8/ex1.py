@@ -58,8 +58,18 @@ class Graph:
             print("Error occurred while importing from file:", e)
             return None
 
+    def display_graph(self):
+        for node, edges in self.graph.items():
+            print(f"Node {node}:")
+            if edges:
+                for edge in edges:
+                    print(f"  -> {edge[0]} (weight: {edge[1]})")
+            else:
+                print("  No edges")
+
+
 # Test importFromFile 
 graph = Graph()
 graph.import_from_file("random.dot")
-print(graph.graph)
+print(graph.display_graph())
 
