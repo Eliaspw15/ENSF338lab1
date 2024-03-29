@@ -1,4 +1,5 @@
 import graphviz
+import re
 class Graph:
     def __init__(self):
         self.graph = {}
@@ -29,4 +30,36 @@ class Graph:
         else:
             print("one or both nodes are not in the graph.")
 
+    def import_from_file(self, file): #chatgpt used for properly reading then parsing data
+        try:
+            with open(file, 'r') as f:
+                data = f.read()
+
+            # Parse the data using regular expressions
+            pattern = r'(\w+)\s*--\s*(\w+)(?:\s*\[weight=(\d+)\])?;'
+            matches = re.findall(pattern, data)
+
+            # Clear existing nodes and edges
+            self.graph = {}
+
+            # Add nodes and edges from parsed data
+            for match in matches:
+                node1, node2, weight = match[0], match[1], int(match[2]) if match[2] else 1
+                self.add_node(node1)
+                self.add_node(node2)
+                self.add_edge(node1, node2, weight)
+
+            return self.graph
+
+        except FileNotFoundError:
+            print("File not found.")
+            return None
+        except Exception as e:
+            print("Error occurred while importing from file:", e)
+            return None
+
+# Test importFromFile 
+graph = Graph()
+graph.import_from_file("random.dot")
+print(graph.graph)
 
