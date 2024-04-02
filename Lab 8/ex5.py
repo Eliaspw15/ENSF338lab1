@@ -107,7 +107,6 @@ g2.add_node(3)
 g2.add_node(4)
 g2.add_node(5)
 
-# Add edges between nodes without creating cycles
 g2.add_edge(5, 0, 1)
 g2.add_edge(0, 5, 1)    #added one cycle
 g2.add_edge(4, 1, 1)
@@ -115,11 +114,9 @@ g2.add_edge(5, 2, 1)
 g2.add_edge(3, 1, 1)
 g2.add_edge(2, 3, 1)
 
-# Check if the graph is a Directed Acyclic Graph (DAG)
 if g2.isdag():
     print("The graph is a DAG.")
 
-    # Perform topological sorting
     topological_order = g2.toposort()
     print("Topological order:", topological_order)
 else:
